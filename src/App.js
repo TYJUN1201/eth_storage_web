@@ -1,6 +1,5 @@
 import { Box, Card, CardContent, Container, Paper } from '@material-ui/core'
 import React, { useEffect, useState } from 'react'
-import ReactDOM from 'react-dom';
 import Web3 from 'web3'
 import style from './App.module.css'
 import {
@@ -14,11 +13,10 @@ import {
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
 import Add from './routes/Add'
-import AddData from './routes/AddData'
+import Authenticate from './routes/Authentication'
 import ShowData from './routes/ShowData'
 import CryptoJS from 'crypto-js'
 import sendToServerForSecondEncryption from './server/sendToServerForSecondEncryption'
-import reportWebVitals from './reportWebVitals';
 
 
 function App() {
@@ -29,12 +27,14 @@ function App() {
   const [saveDataContract, setSaveDataContract] = useState([])
   const [patientBioMedList, setPatientBioMedList] = useState([])
   const [patientMedicalDataList, setPatientMedicalDataList] = useState([])
-  const [currentScreen, setCurrentScreen] = useState('AddData'); // State to track the current screen
+  const [currentScreen, setCurrentScreen] = useState('authentication'); // State to track the current screen
 
+  const authentication = () => {
+    setCurrentScreen('Authentication');
+  };
   const showAddData = () => {
     setCurrentScreen('AddData');
   };
-
   const showShowData = () => {
     setCurrentScreen('ShowData');
   };
@@ -202,10 +202,16 @@ function App() {
   return (
     <div>
       <header>
+        <button onClick={authentication}>Add Data</button>
         <button onClick={showAddData}>Add Data</button>
         <button onClick={showShowData}>Show Data</button>
       </header>
       <Container maxWidth="md" className={style.container}>
+        {currentScreen === 'Authentication' && (
+            <Authenticate
+            
+            />
+        )}
         {currentScreen === 'AddData' && (
             <Add
               patientBio={patientBio}
