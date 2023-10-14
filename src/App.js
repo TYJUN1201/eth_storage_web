@@ -1,5 +1,6 @@
 import { Box, Card, CardContent, Container, Paper } from '@material-ui/core'
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import ReactDOM from 'react-dom';
 import Web3 from 'web3'
 import style from './App.module.css'
 import {
@@ -10,12 +11,15 @@ import {
   SAVE_DATA_LIST_ADDRESS,
   SAVE_DATA_LIST_ABI
 } from './contracts/SaveData'
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './index.css';
 import Add from './routes/Add'
 import AddData from './routes/AddData'
-import AddMedicalData from './routes/AddMedicalData'
 import ShowData from './routes/ShowData'
 import CryptoJS from 'crypto-js'
 import sendToServerForSecondEncryption from './server/sendToServerForSecondEncryption'
+import reportWebVitals from './reportWebVitals';
+
 
 function App() {
   const [web3, setweb3] = useState()
@@ -25,6 +29,16 @@ function App() {
   const [saveDataContract, setSaveDataContract] = useState([])
   const [patientBioMedList, setPatientBioMedList] = useState([])
   const [patientMedicalDataList, setPatientMedicalDataList] = useState([])
+  const [currentScreen, setCurrentScreen] = useState('AddData'); // State to track the current screen
+
+  const showAddData = () => {
+    setCurrentScreen('AddData');
+  };
+
+  const showShowData = () => {
+    setCurrentScreen('ShowData');
+  };
+
   const [patientBio, setPatientBio] = useState({
     id: 'PATDHCS2001457',
     name: 'Vishwas Paikra',
@@ -186,18 +200,29 @@ function App() {
   }
 
   return (
-    <Container maxWidth="md" className={style.container}>
-      <Add
-        patientBio={patientBio}
-        setPatientBio={(obj) => setPatientBio(obj)}
-        // addUpdatePatientBio={addUpdatePatientBio}
-        patientMedicalData={patientMedicalData}
-        setPatientMedicalData={(obj) => setPatientMedicalData(obj)}
-        addUpdatePatientMedicalData={addUpdatePatientMedicalData}
-      />
-      <ShowData patientBioMedList={patientBioMedList} />
-    </Container>
-  )
+    <div>
+      <header>
+        <button onClick={showAddData}>Add Data</button>
+        <button onClick={showShowData}>Show Data</button>
+      </header>
+      <Container maxWidth="md" className={style.container}>
+        {currentScreen === 'AddData' && (
+            <Add
+              patientBio={patientBio}
+              setPatientBio={(obj) => setPatientBio(obj)}
+              patientMedicalData={patientMedicalData}
+              setPatientMedicalData={(obj) => setPatientMedicalData(obj)}
+              addUpdatePatientMedicalData={addUpdatePatientMedicalData}
+            />
+        )}
+        {currentScreen === 'ShowData' && (
+            <ShowData patientBioMedList={patientBioMedList} />
+        )}
+      </Container>
+    </div>
+  );
 }
 
-export default App
+export default App;
+
+
