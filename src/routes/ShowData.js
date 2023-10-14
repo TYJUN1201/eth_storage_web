@@ -49,6 +49,9 @@ export default function ShowData(props) {
                 <TableCell>Disease Name</TableCell>
                 <TableCell style={{minWidth:'200px'}}>Disease Description</TableCell>
                 <TableCell>Disease StartedOn</TableCell>
+                <TableCell style={{minWidth:'200px'}}>Medicine</TableCell>
+                <TableCell style={{minWidth:'200px'}}>Dose</TableCell>
+                <TableCell style={{minWidth:'200px'}}>Remarks</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -69,6 +72,9 @@ export default function ShowData(props) {
                   <TableCell>{row.diseaseName}</TableCell>
                   <TableCell>{row.diseaseDescription}</TableCell>
                   <TableCell>{formatDate(row.diseaseStartedOn)}</TableCell>
+                  <TableCell>{row.medicine}</TableCell>
+                  <TableCell>{row.dose}</TableCell>
+                  <TableCell>{row.remarks}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

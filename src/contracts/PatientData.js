@@ -88,6 +88,18 @@ export const PATIENT_DATA_LIST_ABI = [
       {
         "name": "diseaseStartedOn",
         "type": "string"
+      },
+      {
+        "name": "medicine",
+        "type": "string"
+      },
+      {
+        "name": "dose",
+        "type": "string"
+      },
+      {
+        "name": "remarks",
+        "type": "string"
       }
     ],
     "payable": false,
@@ -151,6 +163,18 @@ export const PATIENT_DATA_LIST_ABI = [
       },
       {
         "name": "diseaseStartedOn",
+        "type": "string"
+      },
+      {
+        "name": "medicine",
+        "type": "string"
+      },
+      {
+        "name": "dose",
+        "type": "string"
+      },
+      {
+        "name": "remarks",
         "type": "string"
       }
     ],

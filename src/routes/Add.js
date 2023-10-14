@@ -5,7 +5,7 @@ import style from './AddData.module.css'
 import { Card } from '@material-ui/core'
 
 export default function Add(props) {
-    const cardRef = useRef()
+  const cardRef = useRef()
   const {
     patientBio,
     setPatientBio,

@@ -56,7 +56,10 @@ function App() {
     diseaseName: 'Hyper Myopia',
     diseaseDescription:
       'caused by long exposure to harmful artificial blue light',
-    diseaseStartedOn: '1 apr 2016',
+    diseaseStartedOn: '1 april 2016',
+    medicine: 'Paracetamol',
+    dose: '1 dose each time',
+    remarks: 'Before meal, 3 times daily',
   })
 
   useEffect(async () => {

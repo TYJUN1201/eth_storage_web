@@ -26,7 +26,10 @@ export default function AddMedicalData(props) {
       patientMedicalData.bloodGroup == '' ||
       patientMedicalData.diseaseName == '' ||
       patientMedicalData.diseaseDescription == '' ||
-      patientMedicalData.diseaseStartedOn == ''
+      patientMedicalData.diseaseStartedOn == '' ||
+      patientMedicalData.medicine == '' ||
+      patientMedicalData.dose == '' ||
+      patientMedicalData.remarks == ''
     ) {
       alert('all fields are required')
       return
@@ -44,6 +47,7 @@ export default function AddMedicalData(props) {
         diseaseStartedOn: e._d.toDateString(),
       })
   }
+  
   return (
     <div className={style.cardContainer}>
       <Card className={style.card} elevation={0}>
@@ -61,7 +65,7 @@ export default function AddMedicalData(props) {
               })
             }
           />
-          <div  className={style.textFieldGroup}>
+          <div className={style.textFieldGroup}>
             <TextField
               id="outlined-basic"
               label="Weight"
@@ -109,33 +113,32 @@ export default function AddMedicalData(props) {
               })
             }
           />
-          <div  className={style.textFieldGroup}>
-          <TextField
-            id="outlined-basic"
-            label="Blood Group"
-            variant="outlined"
-            value={patientMedicalData.bloodGroup}
-            onChange={(e) =>
-              setPatientMedicalData({
-                ...patientMedicalData,
-                bloodGroup: e.target.value,
-              })
-            }
-          />
-          <KeyboardDatePicker
-            margin="normal"
-            id="date-picker-dialog"
-            label="Disease Started On"
-            format="DD/MM/yyyy"
-            className={style.date}
-            value={patientMedicalData.diseaseStartedOn}
-            // variant="inline"
-            inputVariant="outlined"
-            onChange={(e) => as(e)}
-            KeyboardButtonProps={{
-              'aria-label': 'change date',
-            }}
-          />
+          <div className={style.textFieldGroup}>
+            <TextField
+              id="outlined-basic"
+              label="Blood Group"
+              variant="outlined"
+              value={patientMedicalData.bloodGroup}
+              onChange={(e) =>
+                setPatientMedicalData({
+                  ...patientMedicalData,
+                  bloodGroup: e.target.value,
+                })
+              }
+            />
+            <KeyboardDatePicker
+              margin="normal"
+              id="date-picker-dialog"
+              label="Disease Started On"
+              format="DD/MM/yyyy"
+              className={style.date}
+              value={patientMedicalData.diseaseStartedOn}
+              inputVariant="outlined"
+              onChange={(e) => as(e)}
+              KeyboardButtonProps={{
+                'aria-label': 'change date',
+              }}
+            />
           </div>
           <TextField
             id="outlined-basic"
@@ -151,6 +154,48 @@ export default function AddMedicalData(props) {
               })
             }
           />
+          <TextField
+            id="outlined-basic"
+            label="Medicine"
+            variant="outlined"
+            value={patientMedicalData.medicine}
+            multiline
+            rows={2}
+            onChange={(e) =>
+              setPatientMedicalData({
+                ...patientMedicalData,
+                medicine: e.target.value,
+              })
+            }
+          />
+          <TextField
+            id="outlined-basic"
+            label="Dose"
+            variant="outlined"
+            value={patientMedicalData.dose}
+            multiline
+            rows={2}
+            onChange={(e) =>
+              setPatientMedicalData({
+                ...patientMedicalData,
+                dose: e.target.value,
+              })
+            }
+          />
+          <TextField
+            id="outlined-basic"
+            label="Remarks"
+            variant="outlined"
+            value={patientMedicalData.remarks}
+            multiline
+            rows={2}
+            onChange={(e) =>
+              setPatientMedicalData({
+                ...patientMedicalData,
+                remarks: e.target.value,
+              })
+            }
+          />
           <div className={style.btnGroup}>
             <Button
               className={[style.btn, style.btnRed].join(' ')}
@@ -158,12 +203,12 @@ export default function AddMedicalData(props) {
             >
               Back
             </Button>
-            <Button className={style.btn} onClick={(e) => handleChange()}>
+            <Button className={style.btn} onClick={handleChange}>
               Save
             </Button>
           </div>
         </form>
       </Card>
     </div>
-  )
+  );
 }
