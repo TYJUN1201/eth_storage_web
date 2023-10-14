@@ -7,82 +7,163 @@ import {
   InputAdornment,
   TextField,
 } from '@material-ui/core'
+import { KeyboardDatePicker } from '@material-ui/pickers'
 import React, { useState } from 'react'
 import style from './AddData.module.css'
-import React, { useState } from 'react';
 
 export default function AddMedicalData(props) {
-  const [user, setUser] = useState(null); // User state, null if not authenticated
+  const {
+    patientMedicalData,
+    setPatientMedicalData,
+    addUpdatePatientMedicalData,
+    handleBack,
+  } = props
 
-  const handleLogin = (email, password) => {
-    // Implement your authentication logic here.
-    // If authentication is successful, set the user state.
-    if (/* authentication is successful */) {
-      setUser({ email }); // You can store more user-related data here.
-    } else {
-      alert('Authentication failed. Please check your credentials.');
+  const handleChange = (e) => {
+    if (
+      patientMedicalData.weight == '' ||
+      patientMedicalData.height == '' ||
+      patientMedicalData.bloodGroup == '' ||
+      patientMedicalData.diseaseName == '' ||
+      patientMedicalData.diseaseDescription == '' ||
+      patientMedicalData.diseaseStartedOn == ''
+    ) {
+      alert('all fields are required')
+      return
+    }
+    if (window.confirm('Are you sure that you want to save this data')) {
+      addUpdatePatientMedicalData()
     }
   }
 
-  const handleLogout = () => {
-    setUser(null); // Log the user out by clearing the user state.
+  const as = (e) => {
+    console.log(e._d.toDateString())
+    if (e && e._d)
+      setPatientMedicalData({
+        ...patientMedicalData,
+        diseaseStartedOn: e._d.toDateString(),
+      })
   }
-
-  // ... Rest of your component code ...
-
   return (
     <div className={style.cardContainer}>
-      {user ? (
-        // User is authenticated, render the medical data form
-        <div>
-          <h2 className={style.h2}>Patient Medical Data</h2>
-          {/* Your form code here */}
+      <Card className={style.card} elevation={0}>
+        <h2 className={style.h2}>Patient Medical Data</h2>
+        <form className={style.form} noValidate autoComplete="off">
+          <TextField
+            id="outlined-basic"
+            label="Medical Report ID"
+            variant="outlined"
+            value={patientMedicalData.medReportId}
+            onChange={(e) =>
+              setPatientMedicalData({
+                ...patientMedicalData,
+                medReportId: e.target.value,
+              })
+            }
+          />
+          <div  className={style.textFieldGroup}>
+            <TextField
+              id="outlined-basic"
+              label="Weight"
+              variant="outlined"
+              value={patientMedicalData.weight}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">KG</InputAdornment>
+                ),
+              }}
+              onChange={(e) =>
+                setPatientMedicalData({
+                  ...patientMedicalData,
+                  weight: e.target.value,
+                })
+              }
+            />
+            <TextField
+              id="outlined-basic"
+              label="Height"
+              variant="outlined"
+              value={patientMedicalData.height}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">cm</InputAdornment>
+                ),
+              }}
+              onChange={(e) =>
+                setPatientMedicalData({
+                  ...patientMedicalData,
+                  height: e.target.value,
+                })
+              }
+            />
+          </div>
+          <TextField
+            id="outlined-basic"
+            label="Disease Name"
+            variant="outlined"
+            value={patientMedicalData.diseaseName}
+            onChange={(e) =>
+              setPatientMedicalData({
+                ...patientMedicalData,
+                diseaseName: e.target.value,
+              })
+            }
+          />
+          <div  className={style.textFieldGroup}>
+          <TextField
+            id="outlined-basic"
+            label="Blood Group"
+            variant="outlined"
+            value={patientMedicalData.bloodGroup}
+            onChange={(e) =>
+              setPatientMedicalData({
+                ...patientMedicalData,
+                bloodGroup: e.target.value,
+              })
+            }
+          />
+          <KeyboardDatePicker
+            margin="normal"
+            id="date-picker-dialog"
+            label="Disease Started On"
+            format="DD/MM/yyyy"
+            className={style.date}
+            value={patientMedicalData.diseaseStartedOn}
+            // variant="inline"
+            inputVariant="outlined"
+            onChange={(e) => as(e)}
+            KeyboardButtonProps={{
+              'aria-label': 'change date',
+            }}
+          />
+          </div>
+          <TextField
+            id="outlined-basic"
+            label="Description"
+            variant="outlined"
+            value={patientMedicalData.diseaseDescription}
+            multiline
+            rows={2}
+            onChange={(e) =>
+              setPatientMedicalData({
+                ...patientMedicalData,
+                diseaseDescription: e.target.value,
+              })
+            }
+          />
           <div className={style.btnGroup}>
             <Button
               className={[style.btn, style.btnRed].join(' ')}
-              onClick={handleLogout}
+              onClick={handleBack}
             >
-              Logout
+              Back
             </Button>
-            <Button className={style.btn} onClick={handleChange}>
+            <Button className={style.btn} onClick={(e) => handleChange()}>
               Save
             </Button>
           </div>
-        </div>
-      ) : (
-        // User is not authenticated, render a login form
-        <LoginForm onLogin={handleLogin} />
-      )}
+        </form>
+      </Card>
     </div>
-  );
-}
-
-// LoginForm component for user authentication
-function LoginForm({ onLogin }) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
-  const handleLoginClick = () => {
-    // Call the onLogin function with email and password
-    onLogin(email, password);
-  }
-
-  return (
-    <div>
-      <h2>Login</h2>
-      <input
-        type="text"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <button onClick={handleLoginClick}>Login</button>
-    </div>
-  );
+  )
 }

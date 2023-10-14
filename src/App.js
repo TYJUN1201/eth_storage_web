@@ -13,7 +13,7 @@ import {
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
 import Add from './routes/Add'
-import Authenticate from './routes/Authentication'
+import Authentication from './routes/Authenticate';
 import ShowData from './routes/ShowData'
 import CryptoJS from 'crypto-js'
 import sendToServerForSecondEncryption from './server/sendToServerForSecondEncryption'
@@ -28,6 +28,8 @@ function App() {
   const [patientBioMedList, setPatientBioMedList] = useState([])
   const [patientMedicalDataList, setPatientMedicalDataList] = useState([])
   const [currentScreen, setCurrentScreen] = useState('authentication'); // State to track the current screen
+  const [username, setUsername] = useState(null); // User state, null if not authenticated
+  const [password, setPassword] = useState(null); // User state, null if not authenticated
 
   const authentication = () => {
     setCurrentScreen('Authentication');
@@ -202,14 +204,15 @@ function App() {
   return (
     <div>
       <header>
-        <button onClick={authentication}>Add Data</button>
+        <button onClick={authentication}>Authentication</button>
         <button onClick={showAddData}>Add Data</button>
         <button onClick={showShowData}>Show Data</button>
       </header>
       <Container maxWidth="md" className={style.container}>
         {currentScreen === 'Authentication' && (
-            <Authenticate
-            
+            <Authentication
+              username={username}
+              password={password}
             />
         )}
         {currentScreen === 'AddData' && (
