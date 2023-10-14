@@ -56,9 +56,9 @@ contract PatientData {
     string memory diseaseName,
     string memory diseaseDescription,
     string memory diseaseStartedOn,
-    string memory medicine;
-    string memory dose;
-    string memory remarks;
+    string memory medicine,
+    string memory dose,
+    string memory remarks
   ) public {
     // uint _hash = uint(keccak256(abi.encodePacked(msg.sender, patientId, medReportId)));
     bytes memory name = bytes(senders[msg.sender].patients[patientId].name); 
