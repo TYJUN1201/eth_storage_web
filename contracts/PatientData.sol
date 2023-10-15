@@ -26,9 +26,6 @@ contract PatientData {
     string diseaseName;
     string diseaseDescription;
     string diseaseStartedOn;
-    string medicine;
-    string dose;
-    string remarks;
   }
 
   struct Sender {
@@ -55,10 +52,7 @@ contract PatientData {
     string memory bloodGroup,
     string memory diseaseName,
     string memory diseaseDescription,
-    string memory diseaseStartedOn,
-    string memory medicine,
-    string memory dose,
-    string memory remarks
+    string memory diseaseStartedOn
   ) public {
     // uint _hash = uint(keccak256(abi.encodePacked(msg.sender, patientId, medReportId)));
     bytes memory name = bytes(senders[msg.sender].patients[patientId].name); 
@@ -69,7 +63,7 @@ contract PatientData {
         PatientBioStruct(patientName, birthDate, phoneNumber, _address, countMedicalReports);
     
       medicalReports[countMedicalReports++] = 
-        PatientMedicalReportStruct(msg.sender,medReportId,  weight, height, bloodGroup, diseaseName, diseaseDescription, diseaseStartedOn, medicine, dose, remarks);
+        PatientMedicalReportStruct(msg.sender,medReportId,  weight, height, bloodGroup, diseaseName, diseaseDescription, diseaseStartedOn);
   
     } else {
       PatientBioStruct memory patientBio = 
@@ -77,7 +71,7 @@ contract PatientData {
       senders[msg.sender].patients[patientId] = 
         PatientBioStruct(patientName, birthDate, phoneNumber, _address, patientBio.medicalReportNo);
       medicalReports[patientBio.medicalReportNo] = 
-        PatientMedicalReportStruct(msg.sender, medReportId, weight, height, bloodGroup, diseaseName, diseaseDescription, diseaseStartedOn, medicine, dose, remarks);
+        PatientMedicalReportStruct(msg.sender, medReportId, weight, height, bloodGroup, diseaseName, diseaseDescription, diseaseStartedOn);
   
     }
   }

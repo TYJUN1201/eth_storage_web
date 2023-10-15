@@ -13,7 +13,6 @@ import {
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
 import Add from './routes/Add'
-import Authentication from './routes/Authenticate';
 import ShowData from './routes/ShowData'
 import CryptoJS from 'crypto-js'
 import sendToServerForSecondEncryption from './server/sendToServerForSecondEncryption'
@@ -28,12 +27,7 @@ function App() {
   const [patientBioMedList, setPatientBioMedList] = useState([])
   const [patientMedicalDataList, setPatientMedicalDataList] = useState([])
   const [currentScreen, setCurrentScreen] = useState('authentication'); // State to track the current screen
-  const [username, setUsername] = useState(null); // User state, null if not authenticated
-  const [password, setPassword] = useState(null); // User state, null if not authenticated
 
-  const authentication = () => {
-    setCurrentScreen('Authentication');
-  };
   const showAddData = () => {
     setCurrentScreen('AddData');
   };
@@ -76,10 +70,8 @@ function App() {
       SAVE_DATA_LIST_ABI,
       SAVE_DATA_LIST_ADDRESS,
     )
-    // console.log('volla', network, accounts, await patientDataContractCopy.methods.patients(0).call())
     setPatientDataContract(patientDataContractCopy)
     setSaveDataContract(saveDataContractCopy)
-    // updateList(patientDataContractCopy, accounts[0])
     decryptEncryptedList(saveDataContractCopy)
     console.log(patientDataContractCopy)
     return () => {}
@@ -87,10 +79,6 @@ function App() {
 
   const updateList = async (patientDataContract, acc) => {
     const senders = await patientDataContract.methods.senders(acc).call()
-    // const medicalReports = await patientDataContract.methods.medicalReports(0).call()
-    // let countMedicalReports = await patientDataContract.methods
-    //   .countMedicalReports()
-    //   .call()
     let countMedicalReports = senders.patientCount
 
     console.log(countMedicalReports)
@@ -150,43 +138,8 @@ function App() {
     setPatientBioMedList(patientBioMedList)
   }
 
-  // const addUpdatePatientBio = () => {
-  //   patientDataContract.methods
-  //     .addUpdatePatientBio(
-  //       patientBio.name,
-  //       patientBio.birthDate,
-  //       patientBio.phoneNumber,
-  //       patientBio._address,
-  //     )
-  //     .send({ from: account })
-  //     .once('receipt', (receipt) => {
-  //       console.log('saved')
-  //       updateList(patientDataContract, account)
-  //     })
-  // }
-
   const addUpdatePatientMedicalData = () => {
     console.log(patientBio, patientMedicalData)
-    // patientDataContract.methods
-    //   .addMedicalReport(
-    //     patientBio.id,
-    //     patientBio.name,
-    //     patientBio.birthDate,
-    //     patientBio.phoneNumber,
-    //     patientBio._address,
-    //     patientMedicalData.medReportId,
-    //     parseInt(patientMedicalData.weight),
-    //     parseInt(patientMedicalData.height),
-    //     patientMedicalData.bloodGroup,
-    //     patientMedicalData.diseaseName,
-    //     patientMedicalData.diseaseDescription,
-    //     patientMedicalData.diseaseStartedOn,
-    //   )
-    //   .send({ from: account })
-    //   .once('receipt', (receipt) => {
-    //     console.log('saved', receipt)
-    //     updateList(patientDataContract, account)
-    //   })
     let JSONStringData = JSON.stringify({patientBio, patientMedicalData})
     let hash = CryptoJS.SHA256(JSONStringData).toString(CryptoJS.enc.Hex)
     console.log(hash)
@@ -207,17 +160,10 @@ function App() {
   return (
     <div>
       <header>
-        <button onClick={authentication}>Authentication</button>
         <button onClick={showAddData}>Add Data</button>
         <button onClick={showShowData}>Show Data</button>
       </header>
       <Container maxWidth="md" className={style.container}>
-        {currentScreen === 'Authentication' && (
-            <Authentication
-              username={username}
-              password={password}
-            />
-        )}
         {currentScreen === 'AddData' && (
             <Add
               patientBio={patientBio}
